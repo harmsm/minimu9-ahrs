@@ -1,10 +1,10 @@
 #include "L3G.h"
 #include <stdexcept>
 
-#define L3G4200D_ADDRESS_SA0_LOW  (0xD0 >> 1)
-#define L3G4200D_ADDRESS_SA0_HIGH (0xD2 >> 1)
-#define L3GD20_ADDRESS_SA0_LOW    (0xD4 >> 1)
-#define L3GD20_ADDRESS_SA0_HIGH   (0xD6 >> 1)
+#define L3G4200D_ADDRESS_SA0_LOW   (0xD0 >> 1)
+#define L3G4200D_ADDRESS_SA0_HIGH  (0xD2 >> 1)
+#define L3GD20_ADDRESS_SA0_LOW     (0xD4 >> 1)
+#define L3GD20_ADDRESS_SA0_HIGH    (0xD6 >> 1)
 
 L3G::L3G(const char * i2cDeviceName) : i2c(i2cDeviceName)
 {
@@ -17,10 +17,17 @@ void L3G::detectAddress()
     if (i2c.tryReadByte(L3G_WHO_AM_I) == 0xD3) return;
     i2c.addressSet(L3G4200D_ADDRESS_SA0_HIGH);
     if (i2c.tryReadByte(L3G_WHO_AM_I) == 0xD3) return;
+
     i2c.addressSet(L3GD20_ADDRESS_SA0_LOW);
     if (i2c.tryReadByte(L3G_WHO_AM_I) == 0xD4) return;
     i2c.addressSet(L3GD20_ADDRESS_SA0_HIGH);
     if (i2c.tryReadByte(L3G_WHO_AM_I) == 0xD4) return;
+   
+    //L3GD20H (v. 3) 
+    i2c.addressSet(L3GD20_ADDRESS_SA0_LOW);
+    if (i2c.tryReadByte(L3G_WHO_AM_I) == 0xD7) return;
+    i2c.addressSet(L3GD20_ADDRESS_SA0_HIGH);
+    if (i2c.tryReadByte(L3G_WHO_AM_I) == 0xD7) return;
 
     throw std::runtime_error("Could not detect gyro.");
 }

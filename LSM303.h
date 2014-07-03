@@ -75,6 +75,13 @@
 #define LSM303DLHC_OUT_Z_H_M     0x05
 #define LSM303DLHC_OUT_Z_L_M     0x06
 
+// Addresses specific to LSM303D
+#define LSM303D_CTRL7            0x26
+#define LSM303D_WHO_ID           0x49
+#define LSM303D_OUT_X_L_M        0x09
+#define LSM303D_SA0_LOW          0x1D
+#define LSM303D_SA0_HIGH         0x1E
+
 class LSM303
 {
  public:
@@ -100,6 +107,7 @@ private:
         LSM303DLH,
         LSM303DLM,
         LSM303DLHC,
+        LSM303D,
     } device;
 };
 
